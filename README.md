@@ -1,4 +1,4 @@
-# Laravel 7 + Sanctum and Vue-cli + Vuetify Example Test Project
+# Laravel 7 + Sanctum and Vue-cli + Vuetify Project
 
 This is example project built in `Laravel 7` with [`sanctum`](https://laravel.com/docs/7.x/sanctum) as api and [`vue-cli`](https://github.com/vuejs/vue-cli) for frontend. It also have [`laravel/excel`](https://github.com/Maatwebsite/Laravel-Excel) for simple export of records.
 
