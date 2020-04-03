@@ -11,10 +11,11 @@ cd "projectname"
 
 composer install
 
+# create database.sqlite inside database folder then
 # change .env.example to .env and generate a key
 php artisan key:generate
 
-# create database.sqlite inside database folder then
+# populate tables
 php artisan migrate:fresh --seed
 
 # start development server
