@@ -142,6 +142,7 @@ export default {
 
                     this.$refs.form.reset()
                     this.personsInvolved = []
+                    sessionStorage.removeItem('saved')
                 })
                 .catch(error => {
                     this.snackbar({
@@ -152,7 +153,40 @@ export default {
                         y: 'bottom'
                     })
                 })
+        },
+
+        saveInputs() {
+            sessionStorage.setItem(
+                'saved',
+                JSON.stringify({
+                    statement: this.statement,
+                    persons: this.persons,
+                    involved: this.personsInvolved
+                })
+            )
+        },
+
+        loadInputs() {
+            const data = JSON.parse(sessionStorage.getItem('saved'))
+
+            if (!data) return
+
+            this.statement = data.statement
+            this.persons = data.persons
+            this.personsInvolved = data.involved
+            this.$refs.form.resetValidation()
         }
+    },
+
+    created() {
+        window.addEventListener('beforeunload', event => {
+            // Cancel the event as stated by the standard.
+            event.preventDefault()
+            // the absence of a returnValue property on the event will guarantee the browser unload happens
+            delete event['returnValue']
+
+            this.saveInputs()
+        })
     },
 
     computed: {
@@ -160,6 +194,10 @@ export default {
             rules: state => state.rules,
             vawcForm: state => state.vawcForm
         })
+    },
+
+    mounted() {
+        this.loadInputs()
     }
 }
 </script>
