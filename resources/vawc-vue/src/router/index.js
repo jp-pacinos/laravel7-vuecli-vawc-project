@@ -19,16 +19,21 @@ router.afterEach(to => {
 
 // auth guard
 router.beforeEach((to, from, next) => {
-    if (to.matched.some(record => record.meta.requiresAuth)) {
+    const loggedIn = store.state.auth.token
+
+    if (to.matched.some(record => record.meta.requiresAuth) && !loggedIn) {
         // this route requires auth, check if logged in
         // if not, redirect to login page.
-        !store.state.auth.token ? next({ name: 'auth.login' }) : next()
-    } else if (to.matched.some(record => record.meta.requiresGuest)) {
+        next({ name: 'auth.login' })
+    } else if (
+        to.matched.some(record => record.meta.requiresGuest) &&
+        loggedIn
+    ) {
         // authenticated but trying to access guest sites
-        store.state.auth.token ? next({ name: 'admin.home' }) : next()
-    } else {
-        next() // make sure to always call next()!
+        next({ name: 'admin.home' })
     }
+
+    next() // make sure to always call next()!
 })
 
 export default router

@@ -1,5 +1,5 @@
-import AuthService from '@/services/AuthService'
 import Cookies from 'js-cookie'
+import AuthService from '@/services/AuthService'
 import { apiClient } from '@/services'
 
 export const namespaced = true
@@ -26,15 +26,29 @@ export const actions = {
         dispatch('activateToken')
     },
 
-    activateToken({ state }) {
+    activateToken({ state, commit }) {
         apiClient.defaults.headers.common[
             'Authorization'
         ] = `Bearer ${state.token}`
+
+        apiClient.interceptors.response.use(
+            response => response, // simply return the response
+            error => {
+                if (error.response.status === 401) {
+                    // if we catch a 401 error
+                    // force a log out
+                    commit('REMOVE_TOKEN')
+                    location.reload()
+                }
+                return Promise.reject(error) // reject the Promise, with the error as the reason
+            }
+        )
     },
 
-    logout({ commit }) {
+    logout({ commit, dispatch }) {
         commit('REMOVE_TOKEN')
-        AuthService.logout()
+        dispatch('app/progressBar', true, { root: true })
+        AuthService.logout().finally(() => location.reload())
     }
 }
 

@@ -1,16 +1,5 @@
 <script>
-// import { apiClient } from '@/services'
-
-export default {
-    created() {
-        // apiClient.get('/sanctum/csrf-cookie', {
-        //     baseURL: baseURL
-        // })
-        // apiClient.get('/sanctum/csrf-cookie', {
-        //     baseURL: ''
-        // })
-    }
-}
+export default {}
 </script>
 
 <template>

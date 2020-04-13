@@ -15,11 +15,6 @@ export default {
                 text: 'Records',
                 to: { name: 'admin.records' }
             },
-            // {
-            //     icon: 'mdi-chart-bar',
-            //     text: 'Graphs',
-            //     to: { name: 'admin.graphs' }
-            // },
             { divider: true },
             {
                 icon: 'mdi-google-spreadsheet',
@@ -32,7 +27,6 @@ export default {
     methods: {
         logout() {
             this.$store.dispatch('auth/logout')
-            this.$router.push({ name: 'auth.login' })
         },
 
         search(lastname) {

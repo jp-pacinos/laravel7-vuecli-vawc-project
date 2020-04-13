@@ -113,24 +113,6 @@ export const actions = {
         commit('SET_TABLE_LOADING', bool)
     },
 
-    // convertRecords({ state, commit }) {
-    //     const newRecords = state.records.data.map(obj => {
-    //         return {
-    //             id: obj.record_id,
-    //             title: obj.title,
-    //             user: shortFullName({
-    //                 lastname: obj.lastname,
-    //                 firstname: obj.firstname,
-    //                 middlename: obj.middlename,
-    //                 suffix: obj.suffix
-    //             }),
-    //             created_at: longDateTime(obj.created_at)
-    //         }
-    //     })
-
-    //     commit('SET_RECORDS_DATA', newRecords)
-    // },
-
     deleteRecord({ state, commit, dispatch }) {
         commit('DELETE_DIALOG', false)
         commit('TABLE_LOADING', true)

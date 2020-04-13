@@ -1,5 +1,6 @@
 <script>
 import { mapActions } from 'vuex'
+import { apiClient } from '@/services'
 import AuthService from '@/services/AuthService'
 import Snackbar from '@/components/Snackbar'
 
@@ -20,9 +21,23 @@ export default {
     methods: {
         ...mapActions('app', ['snackbar']),
 
-        login() {
+        send() {
             this.loading = true
 
+            apiClient
+                .get('/sanctum/csrf-cookie', { baseURL: '' })
+                .then(() => this.login())
+                .catch(error => {
+                    this.loading = false
+
+                    this.snackbar({
+                        text: 'There was an error: ' + error.message,
+                        y: 'bottom'
+                    })
+                })
+        },
+
+        login() {
             AuthService.login({
                 email: this.username,
                 password: this.password
@@ -79,7 +94,7 @@ export default {
                                 <v-form
                                     v-model="form"
                                     ref="form"
-                                    @submit.prevent="login"
+                                    @submit.prevent="send"
                                 >
                                     <v-text-field
                                         v-model="username"
