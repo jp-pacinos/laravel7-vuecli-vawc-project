@@ -1,5 +1,5 @@
 import { shortFullName } from '@/utils/fullname'
-import { longDateTime } from '@/utils/datetime'
+import { toLongDateTimeFormat } from '@/utils/datetime'
 import RecordService from '@/services/RecordService'
 import router from '@/router'
 
@@ -76,7 +76,7 @@ export const actions = {
 
                 commit(
                     'SET_TABLE_ITEMS',
-                    data.data.map(obj => {
+                    data.data.map((obj) => {
                         return {
                             id: obj.record_id,
                             title: obj.title,
@@ -86,12 +86,12 @@ export const actions = {
                                 middlename: obj.middlename,
                                 suffix: obj.suffix
                             }),
-                            created_at: longDateTime(obj.created_at)
+                            created_at: toLongDateTimeFormat(obj.created_at)
                         }
                     })
                 )
             })
-            .catch(error => {
+            .catch((error) => {
                 dispatch(
                     'app/snackbar',
                     {
@@ -127,7 +127,7 @@ export const actions = {
             .then(() => {
                 commit(
                     'SET_TABLE_ITEMS',
-                    state.tblItems.filter(obj => obj.id !== state.record.id)
+                    state.tblItems.filter((obj) => obj.id !== state.record.id)
                 )
 
                 dispatch(
@@ -138,7 +138,7 @@ export const actions = {
 
                 if (state.record.redirect) router.go(-1)
             })
-            .catch(error => {
+            .catch((error) => {
                 let errorMessage = `There was an error on removing that record: ${error.message}`
 
                 dispatch(

@@ -1,7 +1,11 @@
 <script>
 import { mapState, mapActions } from 'vuex'
 import { shortFullName } from '@/utils/fullname'
-import { toDate, longDateTime, militaryTime } from '@/utils/datetime'
+import {
+    toDateFormat,
+    toLongDateTimeFormat,
+    toTwentyFourHourFormat
+} from '@/utils/datetime'
 import RecordService from '@/services/RecordService'
 import DeleteDialog from '@/components/RecordsDeleteDialog'
 
@@ -100,7 +104,7 @@ export default {
                         text: 'Record updated!'
                     })
                 })
-                .catch(error => {
+                .catch((error) => {
                     this.snackbar({
                         y: 'bottom',
                         text:
@@ -127,7 +131,7 @@ export default {
                 .then(({ data }) => {
                     this.set(data)
                 })
-                .catch(error => {
+                .catch((error) => {
                     this.snackbar({
                         text:
                             'There was an error: ' + error.message ??
@@ -140,7 +144,7 @@ export default {
 
         set(data) {
             // format involved
-            const involved = data.involved.map(person => {
+            const involved = data.involved.map((person) => {
                 return {
                     lastname: person.lastname,
                     firstname: person.firstname,
@@ -159,17 +163,21 @@ export default {
 
             this.statement = {
                 title: data.title,
-                dateHappened: toDate(data.datetime_happened),
-                timeHappened: militaryTime(data.datetime_happened),
+                dateHappened: toDateFormat(data.datetime_happened),
+                timeHappened: toTwentyFourHourFormat(data.datetime_happened),
                 text: data.body
             }
 
-            this.persons[0] = involved.filter(person => person.type.id == 1)[0]
+            this.persons[0] = involved.filter(
+                (person) => person.type.id == 1
+            )[0]
 
-            this.persons[1] = involved.filter(person => person.type.id == 2)[0]
+            this.persons[1] = involved.filter(
+                (person) => person.type.id == 2
+            )[0]
 
             this.personsInvolved = involved.filter(
-                person => person.type.id == 3
+                (person) => person.type.id == 3
             )
 
             this.newHeader(true, { created_at: data.created_at })
@@ -184,7 +192,7 @@ export default {
                     suffix: this.persons[0].suffix
                 }),
                 created_at: rawDate
-                    ? longDateTime(obj.created_at)
+                    ? toLongDateTimeFormat(obj.created_at)
                     : this.viewRecordHeader.created_at
             })
         },
@@ -251,8 +259,8 @@ export default {
 
     computed: {
         ...mapState({
-            rules: state => state.rules,
-            vawcForm: state => state.vawcForm
+            rules: (state) => state.rules,
+            vawcForm: (state) => state.vawcForm
         }),
 
         ...mapState('records', ['viewRecordHeader'])
@@ -543,9 +551,9 @@ export default {
                                     v-model="persons[i].contactNumber"
                                     :label="
                                         'Contact number' +
-                                            (personsOption[i].optionalContact
-                                                ? ' (optional)'
-                                                : '')
+                                        (personsOption[i].optionalContact
+                                            ? ' (optional)'
+                                            : '')
                                     "
                                     prepend-inner-icon="mdi-phone-outline"
                                     :rules="[
