@@ -115,7 +115,7 @@ export const actions = {
 
     deleteRecord({ state, commit, dispatch }) {
         commit('DELETE_DIALOG', false)
-        commit('TABLE_LOADING', true)
+        dispatch('tableLoading', true)
 
         dispatch(
             'app/snackbar',
@@ -126,8 +126,8 @@ export const actions = {
         RecordService.deleteRecord(state.record.id)
             .then(() => {
                 commit(
-                    'SET_RECORDS_DATA',
-                    state.records.data.filter(obj => obj.id !== state.record.id)
+                    'SET_TABLE_ITEMS',
+                    state.tblItems.filter(obj => obj.id !== state.record.id)
                 )
 
                 dispatch(
@@ -148,7 +148,7 @@ export const actions = {
                 )
             })
             .finally(() => {
-                commit('TABLE_LOADING', false)
+                dispatch('tableLoading', false)
             })
     },
 
