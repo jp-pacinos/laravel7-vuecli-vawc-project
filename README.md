@@ -2,7 +2,7 @@
 
 ### Setup
 
-The project built in `laravel 7` and `vue-cli`.
+The project is built in `laravel 7` and `vue-cli`.
 
 -   `cd 'projectname'`
 -   `composer install` (requires Composer: https://getcomposer.org)
