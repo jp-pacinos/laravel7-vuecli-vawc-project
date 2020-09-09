@@ -168,17 +168,20 @@ export default {
                 text: data.body
             }
 
-            this.persons[0] = involved.filter(
-                (person) => person.type.id == 1
-            )[0]
+            for (let i = 0; i < involved.length; i++) {
+                // complainant
+                if (involved[i].type.id == 1) {
+                    this.persons[0] = involved[i]
 
-            this.persons[1] = involved.filter(
-                (person) => person.type.id == 2
-            )[0]
+                // respondent
+                } else if (involved[i].type.id == 2) {
+                    this.persons[1] = involved[i]
 
-            this.personsInvolved = involved.filter(
-                (person) => person.type.id == 3
-            )
+                // involved
+                } else if (involved[i].type.id == 3) {
+                    this.personsInvolved.push(involved[i])
+                }
+            }
 
             this.newHeader(true, { created_at: data.created_at })
         },
@@ -345,9 +348,7 @@ export default {
                 <!-- statement row -->
                 <v-row>
                     <v-col cols="12">
-                        <h3 class="title">
-                            Statement
-                        </h3>
+                        <h3 class="title">Statement</h3>
                         <v-divider class="my-2"></v-divider>
 
                         <v-row>
