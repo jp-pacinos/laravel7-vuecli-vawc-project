@@ -14,7 +14,7 @@ The project is built in `laravel 7` and `vue-cli`.
 
 ### Package Included
 
--   laravel/excel
+-   [laravel/excel](https://github.com/Maatwebsite/Laravel-Excel)
 
 ### Routes
 
