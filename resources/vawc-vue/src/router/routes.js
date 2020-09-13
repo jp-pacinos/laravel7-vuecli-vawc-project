@@ -32,11 +32,6 @@ const routes = [
                 props: true
             },
             {
-                path: 'graphs',
-                name: 'admin.graphs',
-                component: require('@/views/admin/Graphs.vue').default
-            },
-            {
                 path: 'export',
                 name: 'admin.export',
                 component: require('@/views/admin/Export.vue').default
